@@ -1,4 +1,6 @@
 /*
+// Original Code
+
 #include "stdio.h"
 void main()
 {
