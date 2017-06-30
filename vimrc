@@ -135,7 +135,7 @@
 
 "| ----- Theme Settings.                ----- |
 
-	set background=dark
+	set background=light
 	colorscheme PaperColor
 
 
