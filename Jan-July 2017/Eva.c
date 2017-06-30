@@ -1,9 +1,36 @@
-#include <stdio.h>
-#include <time.h>
-#include <stdlib.h>
-#include <string.h>
+	// Header Files.
 
-/*Sorting Functions*/
+#include "time.h"
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
+
+	// Macros.
+
+#define MAXLEN      150
+
+#define RESET       0
+#define BRIGHT      1
+#define DIM         2
+#define UNDERLINE   3
+#define BLINK       4
+#define REVERSE     7
+#define HIDDEN      8
+
+#define BLACK       0
+#define RED         1
+#define GREEN       2
+#define YELLOW      3
+#define BLUE        4
+#define MAGENTA     5
+#define CYAN        6
+#define WHITE       7
+
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
+	// Functions.
+		// 1. Sorting.
+
 int selectionsort();
 void merge(int arr[], int , int , int );
 void mergeSort(int arr[], int , int );
@@ -12,18 +39,18 @@ int partition (int arr[], int low, int high);
 void quickSort(int arr[], int low, int high);
 void printArray(int A[], int size);
 
-/*Anybase to Anybase Conversion*/
+		// 2. Anybase to anybase conversion.
+
 int base2dec(int, int);
 int dec2base(int, int);
-
-/*Stacks and Queues using Arrays*/
 void push();
 void pop();
 void view();
 void insert(int q[],int);
 void delet(int q[],int);
 
-/*Stacks and Queues using Linked Lists*/
+		// 3. Stacks n Queues using linked lists.
+
 int frontelement();
 void enq(int data);
 void deq();
@@ -32,14 +59,186 @@ void display();
 void create();
 void queuesize();
 int qcount = 0;
+
+
+	// Structures.
+
 struct node
 {
     int info;
     struct node *ptr;
-}*pfront,*prear,*ptemp,*pfront1;
+}*pfront, *prear, *ptemp, *pfront1;
 
-int stk[40],top=-1;
-int b,q[30],k,front=-1,rear=-1,item;
+
+int stk[40], top = -1;
+int b, q[30], k, front = -1, rear = -1, item;
+
+
+
+
+
+
+
+
+
+    // UI Boxes.
+
+void textcolor( int attr, int fg, int bg )
+{   
+    char command[13];
+
+    sprintf(command, "%c[%d;%d;%dm", 0x1B, attr, fg + 30, bg + 40);
+    printf("%s", command);
+}
+
+
+
+
+
+void printErrorUIBoxes( int limit )
+{
+    static int count;
+
+    for( count = 0; count < limit; count++ ) {
+        printf( " " );
+    }
+
+    printf( "\033[0m\n" );
+}
+
+
+void printErrorUIBoxesTag()
+{
+    textcolor(BRIGHT, WHITE, WHITE);
+    printf( " \033[0m" );
+    textcolor(BRIGHT, WHITE, MAGENTA);
+}
+
+
+void printUIBoxes( int limit )
+{
+    static int count;
+
+    for( count = 0; count < limit; count++ ) {
+        printf( " " );
+    }
+
+    printf( "\033[0m\n" );
+} 
+
+void printMeHeader()
+{
+    printf( "\033[0m\n" );
+    textcolor(BRIGHT, BLUE, BLUE);
+    printf( " " );
+    printf("\033[0;0m" );
+}
+
+void printUIBoxesTag()
+{
+    textcolor(BRIGHT, MAGENTA, MAGENTA);
+    printf( " \033[0m" );
+    textcolor(BRIGHT, BLACK, WHITE);
+}
+
+
+
+
+
+
+	// Sending an Email.
+
+char usrEmail[ MAXLEN ], usrSubject[ MAXLEN ], usrMessage[ MAXLEN ], emailCmnd[ MAXLEN ];
+
+void sendEmailQuerry()
+{
+	system( emailCmnd );
+    printUIBoxesTag();
+    printUIBoxes( 25 );
+
+    printUIBoxesTag();
+    printUIBoxes( 25 - printf("  Eva: Message sent! " ) );
+
+    printUIBoxesTag();
+    printUIBoxes( 25 );
+}
+
+
+void generateMailSendCommand()
+{
+	strcat( emailCmnd, "echo \"" );
+	strcat( emailCmnd, usrMessage );
+	strcat( emailCmnd, "\" | mutt \"" );
+	strcat( emailCmnd, usrEmail );
+	strcat( emailCmnd, "\" -s \"" );
+	strcat( emailCmnd, usrSubject );
+	strcat( emailCmnd, "\"" );
+}
+
+
+void getEmailMessage()
+{
+	printf( "       " );
+    textcolor(BRIGHT, BLACK, GREEN);
+    printf(" Message \033[0;0m " );
+	fgets( usrMessage, MAXLEN, stdin );
+    printf( "\n" );
+}
+
+
+void getEmailSubject()
+{
+    printf( "       " );
+    textcolor(BRIGHT, BLACK, GREEN);
+    printf(" Subject \033[0;0m " );
+	fgets( usrSubject, MAXLEN, stdin );
+    printf( "\n" );
+}
+
+
+void getEmailAddress()
+{
+    printUIBoxesTag();
+    printUIBoxes( 40 );
+
+    printUIBoxesTag();
+    printUIBoxes( 40 - printf("  Eva: Sure, fill the details please :) " ) );
+
+    printUIBoxesTag();
+    printUIBoxes( 40 );
+
+
+	printMeHeader();
+    printf( "  Me: ");
+
+    printf( "     " );
+    textcolor(BRIGHT, BLACK, GREEN);
+    printf(" To \033[0;0m " );
+	fgets( usrEmail, MAXLEN, stdin );
+    printf( "\n" );
+}
+
+
+void initiateMailSendProcedure()
+{
+	getEmailAddress();
+	getEmailSubject();
+	getEmailMessage();
+	
+
+	generateMailSendCommand();
+	sendEmailQuerry();
+}
+
+
+
+
+
+
+
+
+
+
 
 int main()
 {
@@ -48,46 +247,108 @@ int main()
         int n,array[30],i,d,t,bubble[100];
         float cur;
         char input[30];
-        for(i=0;i<45;i++)
-        {
+        
+		
+		for(i=0;i<45;i++) {
                 printf("\n");
         }
-        printf("Hey there... \nI'm Eva, your Personal Assistant\nHow can I help?\n\nYou: ");
+        
+		
+        printUIBoxesTag();
+        printUIBoxes( 40 );
+
+        printUIBoxesTag();
+        printUIBoxes( 40 - printf("  Hey there... " ) );
+
+        printUIBoxesTag();
+        printUIBoxes( 40 - printf( "  I'm Eva, your Personal Assistant.") );
+
+        printUIBoxesTag();
+        printUIBoxes( 40 - printf( "  How can I help?") );
+
+        printUIBoxesTag();
+        printUIBoxes( 40 );
+
+        printMeHeader();
+        printf( "  Me: ");
+
         fgets(input,30,stdin);
+        printf( "\n" );
+        
         while(strstr(input,"./Quit")==0)
         {       
                 /*Sorting Elements*/
-                if(strstr(input,"Sort the Elements"))
+                if(strstr(input,"Sort") || strstr(input,"sort") )
                 {
-                        printf("Eva: How would you like to perform the Sorting?\n");
-                        printf("I can use\n");
-                        printf("Selection Sort | Insertion Sort | Merge Sort\nQuick Sort | Bubble Sort\n\nYou: ");
+                        printUIBoxesTag();
+                        printUIBoxes( 55 );
+
+                        printUIBoxesTag();
+                        printUIBoxes( 55 - printf("  Eva: How would you like to perform the Sorting?" ) );
+
+                        printUIBoxesTag();
+                        printUIBoxes( 55 );
+
+                        printf( "\n        " );
+                        textcolor(BRIGHT, BLACK, GREEN);
+                        printf(" Selection Sort \033[0;0m " );
+                        textcolor(BRIGHT, BLACK, GREEN);
+                        printf(" Insertion Sort \033[0;0m " );
+                        textcolor(BRIGHT, BLACK, GREEN);
+                        printf(" mergeSort Sort \033[0;0m " );
+
+                        printf( "\n\n        " );
+                        textcolor(BRIGHT, BLACK, GREEN);
+                        printf(" Quick Sort \033[0;0m " );
+                        textcolor(BRIGHT, BLACK, GREEN);
+                        printf(" Bubble Sort \033[0;0m\n" );
+
+                        printMeHeader();
+                        printf( "  Me: ");
+
                         fgets(input,30,stdin);
-                        if(strstr(input,"Selection Sort"))
+                        printf( "\n" );
+
+                        if(strstr(input,"Selection Sort") || strstr(input,"selection sort"))
                         {
                                 selectionsort();
                         }
-                        else if(strstr(input,"Quick Sort"))
+                        else if(strstr(input,"Quick Sort") || strstr(input,"quick sort"))
                         {
-                                printf("Eva: How many Elements would you like to enter?\n\nYou: ");
-                                scanf("%d",&size);
-                                printf("Eva: Okie, Now Enter your %d numbers.\n\nYou: ", size);
-                 
-                                for (c=0;c<size;c++)
-                                {
-                                    scanf("%d", &arr[c]);
-                                }
-                                quickSort(arr,0,size-1);
-                                printArray(arr,size);
+                            printf( "       " );
+                            textcolor(BRIGHT, BLACK, GREEN);
+                            printf(" QTY \033[0;0m " );
+
+                            scanf("%d",&size);
+                            printf( "\n" );
+
+                            for (c=0;c<size;c++) {
+                                printf( "       %d. ", c+1 );
+                                scanf("%d", &arr[c]);
+                            }
+
+                            printf( "\n" );
+
+                            quickSort(arr,0,size-1);
+                            printArray(arr,size);
                         }
-                        else if(strstr(input,"Bubble Sort"))
+                        else if(strstr(input,"Bubble Sort") || strstr(input,"bubble sort"))
                         {
-                                printf("Eva: How many elements you would like to enter?\n\nYou: ");
+                                printf( "       " );
+                                textcolor(BRIGHT, BLACK, GREEN);
+                                printf(" QTY \033[0;0m " );
+
                                 scanf("%d", &n);
-                                printf("Eva: Great choice! Now, Enter your %d integers.\n\nYou: ", n);
-                                for (c=0;c<n;c++)
-                                        scanf("%d", &bubble[c]);
-                                for (c=0;c<(n-1); c++)
+                                printf( "\n" );
+								
+								for (c=0;c<n;c++) {
+                                    printf( "       %d. ", c+1 );
+                                    scanf("%d", &bubble[c]);
+                                }
+                                printf( "\n" );
+                                
+								
+								for (c=0;c<(n-1); c++)
                                 {
                                         for (d=0;d<n-c-1;d++)
                                         {
@@ -99,59 +360,127 @@ int main()
                                                 }
                                         }
                                 }
-                                printf("Eva: Here you go -\n");
-                                for (c=0;c<n-1;c++)
-                                        printf("%d | ", bubble[c]);
-                                printf("%d\n\n", bubble[c]);
+                                
+                            printUIBoxesTag();
+                            printUIBoxes( 30 );
+
+                            printUIBoxesTag();
+                            printUIBoxes( 30 - printf("  Eva: Here you go..." ) );
+
+                            printUIBoxesTag();
+                            printUIBoxes( 30 );
+
+                            printf( "\n        " );
+                            for (c=0;c<n-1;c++) {
+                                textcolor(BRIGHT, BLACK, GREEN);
+                                printf(" %d \033[0;0m ", bubble[c] );
+                            }
+
+                            textcolor(BRIGHT, BLACK, GREEN);
+                            printf(" %d \033[0;0m\n\n", bubble[c] );
                         }
-                        else if(strstr(input,"Merge Sort"))
+                        else if(strstr(input,"Merge Sort") || strstr(input,"merge sort"))
                         {
-                            printf("Eva: How many Elements would you like to enter?\n\nYou: ");
+                            printf( "       " );
+                            textcolor(BRIGHT, BLACK, GREEN);
+                            printf(" QTY \033[0;0m " );
+
                             scanf("%d",&size);
-                            printf("Eva: Okie, Now Enter your %d numbers.\n\nYou: ", size);
+                            printf( "\n" );
          
                             for (c=0;c<size;c++)
                             {
+                                printf( "       %d. ", c+1 );
                                 scanf("%d", &arr[c]);
                             }
+                            printf( "\n" );
+
                             mergeSort(arr,0,size-1);
                             printArray(arr, size);
                         }
-                        else if(strstr(input,"Insertion Sort"))
+                        else if(strstr(input,"Insertion Sort") || strstr(input,"insertion sort"))
                         {
-                                  printf("Eva: How many Elements would you like to enter?\n\nYou: ");
-                                  scanf("%d", &n);
-                                 
-                                  printf("Eva: Okie, Now Enter your %d numbers.\n\nYou: ", n);
-                                 
-                                  for (c=0;c<n;c++)
-                                  {
-                                    scanf("%d", &array[c]);
-                                  }
-                                 
-                                  for (c=1;c<=n-1;c++)
-                                  {
-                                    d = c;
-                                 
-                                    while ( (d>0) && (array[d]<array[d-1]))
-                                    {
-                                      t=array[d];
-                                      array[d]=array[d-1];
-                                      array[d-1]=t;
-                                 
-                                      d--;
-                                    }
-                                  }
-                                 
-                                  printf("Eva: Here you go...\n");
-         
-                                  for(c=0;c<n-1;c++)
-                                      printf("%d | ", array[c]);
-                                      printf("%d\n\n",array[c]);
+                            printf( "       " );
+                            textcolor(BRIGHT, BLACK, GREEN);
+                            printf(" QTY \033[0;0m " );
+                            
+                            scanf("%d", &n);
+                            printf( "\n" );
+
+                              for (c=0;c<n;c++)
+                              {
+                                printf( "       %d. ", c+1 );
+                                scanf("%d", &array[c]);
+                              }
+                              printf( "\n" );
+                             
+                              for (c=1;c<=n-1;c++)
+                              {
+                                d = c;
+                             
+                                while ( (d>0) && (array[d]<array[d-1]))
+                                {
+                                  t=array[d];
+                                  array[d]=array[d-1];
+                                  array[d-1]=t;
+                             
+                                  d--;
+                                }
+                              }
+                             
+                            printUIBoxesTag();
+                            printUIBoxes( 30 );
+
+                            printUIBoxesTag();
+                            printUIBoxes( 30 - printf("  Eva: Here you go..." ) );
+
+                            printUIBoxesTag();
+                            printUIBoxes( 30 );
+
+                            printf( "\n        " );
+                            for(c=0;c<n-1;c++) {
+                                textcolor(BRIGHT, BLACK, GREEN);
+                                printf(" %d \033[0;0m ", array[c] );
+                            }
+                                textcolor(BRIGHT, BLACK, GREEN);
+                                printf(" %d \033[0;0m\n\n", array[c] );
                         }
                         
                         fgets(input,30,stdin);
                 }
+
+
+				// Sending an Email.
+				else if( strstr( input, "Email" ) || strstr( input, "email" )  ) {					
+					initiateMailSendProcedure();
+
+
+					printMeHeader();
+                    printf( "  Me: ");
+
+                	fgets(input,30,stdin);
+					continue;
+				}
+
+				
+				// Edit a text file.
+				else if( strstr( input, "File" ) || strstr( input, "file" )  ) {					
+
+
+					system( "gcc -Wall editor.c -o editor && ./editor" );
+					
+
+					for(i=0;i<45;i++)
+						printf("\n");
+
+
+					printMeHeader();
+                    printf( "  Me: ");
+					fgets(input,30,stdin);
+					continue;
+				}
+
+
                 /*STACKS using Arrays*/
                 else if(strstr(input,"Play with Stacks"))
                 {
@@ -272,267 +601,699 @@ int main()
                         fgets(input,30,stdin);
                 }
                 /*Rupee Conversion*/
-                else if(strstr(input,"Convert Euro to Rupee"))
+                else if(strstr(input,"Euros to Rupees") || strstr(input,"euros to rupees") )
                 {
-                        printf("Eva: How many Euros you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Euro equals to %f Rupee.\n\n",cur,cur*71.30351);
-                        fgets(input,30,stdin);
+					printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Euros \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Euros equals to %f Rupees.", cur, cur*71.30351 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Rupee to Euro"))
+                else if(strstr(input,"Rupees to Euros") || strstr(input,"rupees to euros") )
                 {
-                        printf("Eva: How many Rupees you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Rupee equals to %f Euro.\n\n",cur,cur/71.30351);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Rupees \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Rupees equals to %f Euros.", cur, cur / 71.30351 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Dollar to Rupee"))
+                else if( strstr(input,"Dollars to Rupees") || strstr(input,"dollars to rupees") )
                 {
-                        printf("Eva: How many Dollars you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Dollar equals to %f Rupee.\n\n",cur,cur*67.80800);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Dollars \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Dollars equals to %f Rupees.", cur, cur * 67.80800 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Rupee to Dollar"))
+                else if(strstr(input,"Rupees to Dollars") || strstr(input,"rupees to dollars"))
                 {
-                        printf("Eva: How many Rupees you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Rupee equals to %f Dollar.\n\n",cur,cur/67.80800);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Rupees \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Rupees equals to %f Dollars.", cur, cur / 67.80800 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Yen to Rupee"))
+                else if(strstr(input,"Yens to Rupees") || strstr(input,"yens to rupees"))
                 {
-                        printf("Eva: How many Yens you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Yen equals to %f Rupee.\n\n",cur,cur*0.57925);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Yens \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Yens equals to %f Rupees.", cur, cur * 0.57925 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Rupee to Yen"))
+                else if(strstr(input,"Rupees to Yens") || strstr(input,"rupees to yens"))
                 {
-                        printf("Eva: How many Rupees you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Rupee equals to %f Yen.\n\n",cur,cur/0.57925);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Rupees \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Rupees equals to %f Yens.", cur,cur/0.57925 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Pound to Rupee"))
+                else if(strstr(input,"Pounds to Rupees") || strstr(input,"pounds to rupees"))
                 {
-                        printf("Eva: How many Pounds you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Pound equals to %f Rupee.\n\n",cur,cur*83.64996);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Pounds \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Pounds equals to %f Rupees.", cur,cur*83.64996 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Rupee to Pound"))
+                else if(strstr(input,"Rupees to Pounds") || strstr(input,"rupees to pounds"))
                 {
-                        printf("Eva: How many Rupees you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Rupee equals to %f Pound.\n\n",cur,cur/83.64996);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Rupees \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Rupees equals to %f Pounds.", cur,cur/83.64996 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Franc to Rupee"))
+                else if(strstr(input,"Francs to Rupees") || strstr(input,"francs to rupees"))
                 {
-                        printf("Eva: How many Francs you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Franc equals to %f Rupee.\n\n",cur,cur*66.51103);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Francs \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Francs equals to %f Rupees.", cur,cur*66.51103 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Rupee to Franc"))
+                else if(strstr(input,"Rupees to Francs") || strstr(input,"rupees to francs"))
                 {
-                        printf("Eva: How many Rupees you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Rupee equals to %f Franc.\n\n",cur,cur/66.51103);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Rupees \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Rupees equals to %f Francs.", cur,cur/66.51103 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
                 
                 /*Dollar Conversion*/
-                if(strstr(input,"Convert Euro to Dollar"))
+                if(strstr(input,"Euros to Dollars") || strstr(input,"euros to dollars"))
                 {
-                        printf("Eva: How many Euros you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Euro equals to %f Dollar.\n\n",cur,cur*1.05155);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Euros \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Euros equals to %f Dollars.", cur,cur*1.05155 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Dollar to Euro"))
+                else if(strstr(input,"Dollars to Euros") || strstr(input,"dollars to euros"))
                 {
-                        printf("Eva: How many Dollars you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Dollar equals to %f Euro.\n\n",cur,cur/1.05155);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Dollars \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Dollars equals to %f Euros.", cur,cur/1.05155 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Yen to Dollar"))
+                else if(strstr(input,"Yens to Dollars") || strstr(input,"yens to dollars"))
                 {
-                        printf("Eva: How many Yens you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Yen equals to %f Dollar.\n\n",cur,cur*0.00854);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Yens \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Yens equals to %f Dollars.", cur,cur*0.00854 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Dollar to Yen"))
+                else if(strstr(input,"Dollars to Yens") || strstr(input,"dollars to yens"))
                 {
-                        printf("Eva: How many Dollars you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Dollar equals to %f Yen.\n\n",cur,cur/0.00854);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Dollars \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Dollars equals to %f Yens.", cur,cur/0.00854 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Pound to Dollar"))
+                else if(strstr(input,"Pounds to Dollars") || strstr(input,"pounds to dollars"))
                 {
-                        printf("Eva: How many Pounds you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Pound equals to %f Dollar.\n\n",cur,cur*1.23363);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Pounds \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Pounds equals to %f Dollars.", cur,cur*1.23363 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Dollar to Pound"))
+                else if(strstr(input,"Dollars to Pounds") || strstr(input,"dollars to pounds"))
                 {
-                        printf("Eva: How many Dollars you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Dollar equals to %f Pound.\n\n",cur,cur/1.23363);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Dollars \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Dollars equals to %f Pounds.", cur,cur/1.23363 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Franc to Dollar"))
+                else if(strstr(input,"Francs to Dollars") || strstr(input,"francs to dollars"))
                 {
-                        printf("Eva: How many Francs you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Franc equals to %f Dollar.\n\n",cur,cur*0.98087);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Francs \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Francs equals to %f Dollars.", cur,cur*0.98087 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Dollar to Franc"))
+                else if(strstr(input,"Dollars to Francs") || strstr(input,"dollars to francs"))
                 {
-                        printf("Eva: How many Dollars you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Dollar equals to %f Franc.\n\n",cur,cur/0.98087);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Dollars \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Dollars equals to %f Francs.", cur,cur/0.98087 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
                 
                 /*Pound Conversion*/
-                if(strstr(input,"Convert Euro to Pound"))
+                if(strstr(input,"Euros to Pounds") || strstr(input,"euros to pounds"))
                 {
-                        printf("Eva: How many Euros you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Euro equals to %f Pound.\n\n",cur,cur*0.85173);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Euros \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Euros equals to %f Pounds.", cur,cur*0.85173 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Pound to Euro"))
+                else if(strstr(input,"Pounds to Euros") || strstr(input,"pounds to euros"))
                 {
-                        printf("Eva: How many Pounds you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Pound equals to %f Euro.\n\n",cur,cur/0.85173);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Pounds \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Pounds equals to %f Euros.", cur,cur/0.85173 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Yen to Pound"))
+                else if(strstr(input,"Yens to Pounds") || strstr(input,"yens to pounds"))
                 {
-                        printf("Eva: How many Yens you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Yen equals to %f Pound.\n\n",cur,cur*0.00692);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Yens \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Yens equals to %f Pounds.", cur,cur*0.00692 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Pound to Yen"))
+                else if(strstr(input,"Pounds to Yens") || strstr(input,"pounds to yens"))
                 {
-                        printf("Eva: How many Pounds you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Pound equals to %f Yen.\n\n",cur,cur/0.00692);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Pounds \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Pounds equals to %f Yens.", cur,cur/0.00692 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Franc to Pound"))
+                else if(strstr(input,"Francs to Pounds") || strstr(input,"francs to pounds"))
                 {
-                        printf("Eva: How many Francs you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Franc equals to %f Pound.\n\n",cur,cur*0.79448);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Francs \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Francs equals to %f Pounds.", cur,cur*0.79448 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Pound to Franc"))
+                else if(strstr(input,"Pounds to Francs") || strstr(input,"pounds to francs"))
                 {
-                        printf("Eva: How many Pounds you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Pound equals to %f Franc.\n\n",cur,cur/0.79448);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Pounds \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Pounds equals to %f Francs.", cur,cur/0.79448 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
                 
                 /*Euro Conversion*/
-                else if(strstr(input,"Convert Yen to Euro"))
+                else if(strstr(input,"Yens to Euros") || strstr(input,"yens to euros"))
                 {
-                        printf("Eva: How many Yens you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Yen equals to %f Euro.\n\n",cur,cur*0.00812);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Yens \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Yens equals to %f Euros.", cur,cur*0.00812 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Euro to Yen"))
+                else if(strstr(input,"Euros to Yens") || strstr(input,"euros to yens"))
                 {
-                        printf("Eva: How many Euros you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Euro equals to %f Yen.\n\n",cur,cur/0.00812);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Euros \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Euros equals to %f Yens.", cur,cur/0.00812 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Franc to Euro"))
+                else if(strstr(input,"Francs to Euros") || strstr(input,"francs to euros"))
                 {
-                        printf("Eva: How many Francs you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Franc equals to %f Euro.\n\n",cur,cur*0.93193);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Francs \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Francs equals to %f Euros.", cur,cur*0.93193 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Euro to Franc"))
+                else if(strstr(input,"Euros to Francs") || strstr(input,"euros to francs"))
                 {
-                        printf("Eva: How many Euros you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Euro equals to %f Franc.\n\n",cur,cur/0.93193);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Euros \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Euros equals to %f Francs.", cur,cur/0.93193 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
                 
                 /*Franc Conversion*/
-                else if(strstr(input,"Convert Yen to Franc"))
+                else if(strstr(input,"Yens to Francs") || strstr(input,"yens to francs"))
                 {
-                        printf("Eva: How many Yens you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Yen equals to %f Franc.\n\n",cur,cur*0.00870);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Yens \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Yens equals to %f Francs.", cur,cur*0.00870 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"Convert Franc to Yen"))
+                else if(strstr(input,"Francs to Yens") || strstr(input,"francs to yens"))
                 {
-                        printf("Eva: How many Francs you would like to convert?\n\nYou: ");
-                        scanf("%f",&cur);
-                        printf("Eva: %f Franc equals to %f Yen.\n\n",cur,cur/0.00870);
-                        fgets(input,30,stdin);
+                    printf( "       " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Francs \033[0;0m " );
+                    scanf("%f",&cur);
+                    printf( "\n" );
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 - printf("  Eva: %f Francs equals to %f Yens.", cur,cur/0.00870 ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 55 );
+                    
+                    fgets(input,30,stdin);
                 }
-                else if(strstr(input,"What Time is it right now?"))
+                else if(strstr(input,"time") || strstr(input,"Time") )
                 {
                         time_t rawtime;
                         struct tm *info;
                         char buffer[80];
                         time(&rawtime);
                         info=localtime(&rawtime);
-                        printf("Eva: Right Now?\nIt's ");
                         strftime(buffer, 80,"%I:%M %p",info);
-                        printf("%s.",buffer);
-                        printf("\n\n");
+
+                    printUIBoxesTag();
+                    printUIBoxes( 35 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 35 - printf("  Eva: Right now, It's %s!", buffer ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 35 );
                 }
-                else if(strstr(input,"What Date is Today?"))
+                else if(strstr(input,"date") || strstr(input,"Date") )
                 {
                         time_t rawtime;
                         struct tm *info;
                         char buffer[80];
                         time(&rawtime);
                         info=localtime(&rawtime);
-                        printf("Eva: Today,\nIt's ");
                         strftime(buffer, 80,"%x",info);
-                        printf("%s.",buffer);
-                        printf("\n\n");
+
+                    printUIBoxesTag();
+                    printUIBoxes( 30 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 30 - printf("  Eva: Today, It's %s!", buffer ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 30 );
                 }
-                else if(strstr(input,"./Shut Down"))
+                else if( strstr( input, "Shut Down" ) )
                 {
-                        system("shutdown -P now");
+                    printUIBoxesTag();
+                    printUIBoxes( 35 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 35 - printf( "  Eva: Shutting down... Good-Bye!" ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 35 );
+
+                    system("shutdown -P now");
                 }
                 else if(strstr(input,"Hello Eva!"))
                 {
-                        printf("Eva: Hello friend :)\n\n");
+                    printUIBoxesTag();
+                    printUIBoxes( 25 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 25 - printf( "  Eva: Hello Human :)" ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 25 );
                 }
                 else if(strstr(input,"What Place is this?"))
                 {
-                        printf("Eva: This is Advance Programming Lab,\n");
-                        printf("ITS Engg College,\n");
-                        printf("Greater Noida.\n\n");
+                    printUIBoxesTag();
+                    printUIBoxes( 50 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 50 - printf( "  Eva: This place is called \"Mother Earth\"!" ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 50 );
                 }
                 else if(strstr(input,"Who is Neha Ma'am?"))
                 {
-                        printf("Eva: Shame on you!!!\n");
-                        printf("How come you are still in 2nd Year?\n");
-                        printf("Gooo... Look in your Time-Table (^^)\n\n");
+                    printUIBoxesTag();
+                    printUIBoxes( 50 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 50 - printf( "  Eva: Shame on you!!!" ) );
+                    printUIBoxesTag();
+                    printUIBoxes( 50 - printf( "       How come you are still in 2nd Year?" ) );
+                    printUIBoxesTag();
+                    printUIBoxes( 50 - printf( "       Gooo... Look in your Time-Table (^^)" ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 50 );
                 }
                 else if(strstr(input,"Who are you?"))
                 {
@@ -541,45 +1302,126 @@ int main()
                         char buffer[80];
                         time(&rawtime);
                         info=localtime(&rawtime);
-                        printf("Eva: PURE IMAGINATION\n");
-                        printf("That's what I would call it...\n");
-                        printf("I was executed by Ubuntu.\n");
-                        printf("I was born on ");     
                         strftime(buffer, 80,"%x - %I:%M %p",info);
-                        printf("%s.",buffer);
-                        printf("\n\n");
+
+
+                    printUIBoxesTag();
+                    printUIBoxes( 65 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 65 - printf( "  Eva: PURE IMAGINATION!" ) );
+                    printUIBoxesTag();
+                    printUIBoxes( 65 - printf( "       That's how I would present myself..." ) );
+                    printUIBoxesTag();
+                    printUIBoxes( 65 - printf( "       I was executed from Ubuntu on %s!", buffer ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 65 );
                 }
                 else if(strstr(input,"What can you do?"))
                 {
-                        printf("Eva: I've been programmed to\n\n");
-                        printf("1. Shut Down - <./Shut Down>\n");
-                        printf("2. Quit the Program - <./Quit>\n");
-                        printf("3. Sort elements (Insertion, Selection and Merge Sort) - <Sort Elements>\n");
-                        printf("4. Convert a No. from one Base to another - <Do Anybase No. Conversion>\n");
-                        printf("5. Convert Currency (Euro, Rupee, Dollar, Franc and Yen) - <Convert (FROM) to (TO)>\n");
-                        printf("6. Show Time - <What Time is it right now?>\n");
-                        printf("7. Show Date - <What Date is Today?>\n");
-                        printf("8. Play Chat-Chat :) - \n<Hello Eva!> | <What Place is this?> | <Who is Neha Ma'am?>\n");
-                        printf("<Who is Neha Ma'am?> | <Who are you?> | <What can you do?>\n\n");
+                    printUIBoxesTag();
+                    printUIBoxes( 80 );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 80 - printf("  Eva: I can do much more... Just type in any one of the following command." ) );
+
+                    printUIBoxesTag();
+                    printUIBoxes( 80 );
+
+                    printf( "\n        " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Shut Down - <./Shut Down> \033[0;0m\n\n" );
+
+                    printf( "        " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Quit the Program - <./Quit> \033[0;0m\n\n" );
+
+                    printf( "        " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Sort elements (Insertion, Selection and Merge Sort) - <Sort Elements> \033[0;0m\n\n" );
+
+                    printf( "        " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Convert a No. from one Base to another - <Do Anybase No. Conversion> \033[0;0m\n\n" );
+
+                    printf( "        " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Convert Currency (Dollar, Rupee etc.) - <Convert (FROM) to (TO)> \033[0;0m\n\n" );
+                        
+                    printf( "        " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Show Time - <What Time is it right now?> \033[0;0m\n\n" );
+
+                    printf( "        " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Show Date - <What Date is Today?> \033[0;0m\n\n" );
+
+                    printf( "        " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Chat: Hello Eva! | What Place is this? | Who is Neha Ma'am? \033[0;0m\n\n" );
+                        
+                    printf( "        " );
+                    textcolor(BRIGHT, BLACK, GREEN);
+                    printf(" Who is Neha Ma'am? | Who are you? | What can you do? \033[0;0m\n\n" );
+
+                    printf( "        " );
+                    textcolor(BRIGHT, WHITE, MAGENTA);
+                    printf(" Google Search - coming soon! \033[0;0m\n\n" );
                         
                 }
-                printf("You: ");
+                else if( strstr( input, "clear") || strstr( input, "Clear") ) {
+                    for(i=0;i<45;i++) {
+                        printf("\n");
+                    }
+                }
+                // else {
+                //     printErrorUIBoxesTag();
+                //     printErrorUIBoxes( 60 );
+
+                //     printErrorUIBoxesTag();
+                //     printErrorUIBoxes( 60 - printf("  Eva: I don't understand this yet... But soon will :D" ) );
+
+                //     printErrorUIBoxesTag();
+                //     printErrorUIBoxes( 60 );
+                // }
+
+                printMeHeader();
+                printf( "  Me: ");
+
                 fgets(input,30,stdin);
+                printf( "\n" );
         }
+
+        printUIBoxesTag();
+        printUIBoxes( 35 );
+
+        printUIBoxesTag();
+        printUIBoxes( 35 - printf("  Eva: See you soon, Good-Bye!" ) );
+
+        printUIBoxesTag();
+        printUIBoxes( 35 );
+
+        printf( "\n" );
 }
 
 int selectionsort()
 {
            int array[100], n, c, d, position, swap;
+
+            printf( "       " );
+            textcolor(BRIGHT, BLACK, GREEN);
+            printf(" QTY \033[0;0m " );
+
+            scanf("%d",&n);
+            printf( "\n" );
          
-           printf("Eva: How many numbers you would like to Sort?\n\nYou: ");
-           scanf("%d", &n);
-         
-           printf("Eva: Okie, Now Enter your %d numbers.\n\nYou: ", n);
-         
-           for (c=0;c<n;c++)
-              scanf("%d", &array[c]);
-         
+           for (c=0;c<n;c++) {
+                printf( "       %d. ", c+1 );
+                scanf("%d", &array[c]);
+           }
+            printf( "\n" );
+
            for (c=0;c<(n-1);c++)
            {
               position=c;
@@ -597,11 +1439,25 @@ int selectionsort()
               }
            }
          
-           printf("Eva: Here you go...\n");
-         
-           for (c=0;c<n-1;c++)
-              printf("%d | ", array[c]);
-              printf("%d\n\n",array[c]);
+
+
+            printUIBoxesTag();
+            printUIBoxes( 30 );
+
+            printUIBoxesTag();
+            printUIBoxes( 30 - printf("  Eva: Here you go..." ) );
+
+            printUIBoxesTag();
+            printUIBoxes( 30 );
+
+            printf( "\n        " );
+            for (c=0;c<n-1;c++) {
+                textcolor(BRIGHT, BLACK, GREEN);
+                printf(" %d \033[0;0m ", array[c] );
+            }
+
+            textcolor(BRIGHT, BLACK, GREEN);
+            printf(" %d \033[0;0m\n\n", array[c] );
          
            return 0;
 }
@@ -671,10 +1527,25 @@ void mergeSort(int arr[], int l, int r)
 void printArray(int A[], int size)
 {
     int i;
-    printf("Eva: Here you go...\n");
-    for(i=0;i<size-1;i++)
-        printf("%d | ",A[i]);
-    printf("%d\n\n",A[i]);
+    
+    printUIBoxesTag();
+    printUIBoxes( 30 );
+
+    printUIBoxesTag();
+    printUIBoxes( 30 - printf("  Eva: Here you go..." ) );
+
+    printUIBoxesTag();
+    printUIBoxes( 30 );
+
+    printf( "\n        " );
+    for(i=0;i<size-1;i++) {
+        textcolor(BRIGHT, BLACK, GREEN);
+        printf(" %d \033[0;0m ", A[i] );
+    }
+
+    textcolor(BRIGHT, BLACK, GREEN);
+    printf(" %d \033[0;0m\n\n", A[i] );
+ 
 }
 
 int base2dec(int no, int frombase)
