@@ -1,4 +1,3 @@
-
 // -----An attempt to print Vertical Histogram----- //
 
 #include <stdio.h>
