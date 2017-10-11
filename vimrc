@@ -1,6 +1,6 @@
 
 
-"| ----- Pathogen Plugin Manager.       ----- |
+"| -----fr Pathogen Plugin Manager.       ----- |
 			
 	 execute pathogen#infect()
 	     set nocompatible
