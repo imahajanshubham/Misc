@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 int main(void) {
+  // SUBTASK #1: Max array size - 100000.
   char inputBuffer[100001];
 
   int noOfTestCases;
