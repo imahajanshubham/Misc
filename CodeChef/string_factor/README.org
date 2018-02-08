@@ -8,7 +8,7 @@ in a given string. Help core members to find them.
 
 *** Input
 First line of input contains an integer T, denoting the number of test cases.
-Then follows description of T cases.Each line of input is a binary form.
+Then follows description of T cases. Each line of input is a binary form.
 
 *** Output
 Print the number of times the factor is present in a given string.
