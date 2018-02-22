@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* Given a string of max 100,000 characters,
+   1. We need to find the frequency of all the alphabets that appeared in the string.
+   2. If the frequency of all the appeared alphabets is same,
+      print "YES\n"
+   3. Otherwise,
+      print "NO\n" */
+
+
 #define NOOFALPHABETS 26
 #define MAXLEN 100001
 
