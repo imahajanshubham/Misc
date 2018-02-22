@@ -15,7 +15,7 @@
 #define ASCIIOF_a 97
 #define NEWLINE '\n'
 
-static char inputString[MAXLEN];
+char inputString[MAXLEN];
 
 static long int occurrence[NOOFALPHABETS];
 static long int hasSameFrequency;
